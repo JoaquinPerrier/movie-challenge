@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -8,6 +9,7 @@ import {
   Text,
   VStack,
   Badge,
+  Spinner,
 } from "@chakra-ui/react";
 import { useParams, Link } from "react-router-dom";
 import { LuArrowLeft, LuClock, LuStar } from "react-icons/lu";
@@ -16,17 +18,59 @@ import { CommentForm } from "@/components/comments/CommentForm";
 import { CommentList } from "@/components/comments/CommentList";
 import { useSingleFavorite } from "@/hooks/useFavorites";
 import { useComments } from "@/hooks/useComments";
-import { mockMovieDetail } from "@/mocks/movies";
+import { getMovieById } from "@/services/omdb";
+import type { MovieDetail } from "@/types/movie";
 
 const PLACEHOLDER_IMG = "https://via.placeholder.com/300x450?text=No+Poster";
 
 export function DetailPage() {
   const { id } = useParams<{ id: string }>();
-  const movie = mockMovieDetail; // TODO: fetch by id from OMDB API
+  const [movie, setMovie] = useState<MovieDetail | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const { isFavorite, toggle } = useSingleFavorite(id ?? "");
   const { comments, addComment } = useComments(id ?? "");
 
-  const genres = movie.Genre.split(", ");
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    setError(null);
+    getMovieById(id)
+      .then((data) => {
+        if (data.Response === "True") {
+          setMovie(data);
+        } else {
+          setError("Movie not found");
+        }
+      })
+      .catch(() => setError("Failed to load movie details"))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Flex justify="center" align="center" minH="calc(100vh - 64px)">
+        <Spinner size="xl" color="primary.500" />
+      </Flex>
+    );
+  }
+
+  if (error || !movie) {
+    return (
+      <Flex justify="center" align="center" minH="calc(100vh - 64px)" direction="column" gap={4}>
+        <Text color="secondary.500" fontSize="lg">
+          {error ?? "Movie not found"}
+        </Text>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Text color="tertiary.500" _hover={{ textDecoration: "underline" }}>
+            Back to search
+          </Text>
+        </Link>
+      </Flex>
+    );
+  }
+
+  const genres = movie.Genre ? movie.Genre.split(", ") : [];
 
   return (
     <Box minH="calc(100vh - 64px)">
@@ -65,69 +109,85 @@ export function DetailPage() {
                 />
               </Flex>
 
-              <HStack gap={2} flexWrap="wrap">
-                {genres.map((genre) => (
-                  <Badge
-                    key={genre}
-                    bg="midGrey"
-                    color="white"
-                    px={2}
-                    py={1}
-                    borderRadius="md"
-                    fontWeight="medium"
-                    fontSize="xs"
-                  >
-                    {genre}
-                  </Badge>
-                ))}
-              </HStack>
+              {genres.length > 0 && (
+                <HStack gap={2} flexWrap="wrap">
+                  {genres.map((genre) => (
+                    <Badge
+                      key={genre}
+                      bg="midGrey"
+                      color="white"
+                      px={2}
+                      py={1}
+                      borderRadius="md"
+                      fontWeight="medium"
+                      fontSize="xs"
+                    >
+                      {genre}
+                    </Badge>
+                  ))}
+                </HStack>
+              )}
 
               <HStack gap={6} color="lightGrey" fontSize="sm">
-                <HStack gap={1}>
-                  <LuClock />
-                  <Text>{movie.Runtime}</Text>
-                </HStack>
+                {movie.Runtime !== "N/A" && (
+                  <HStack gap={1}>
+                    <LuClock />
+                    <Text>{movie.Runtime}</Text>
+                  </HStack>
+                )}
                 <Text>{movie.Year}</Text>
-                <Text>{movie.Rated}</Text>
+                {movie.Rated !== "N/A" && <Text>{movie.Rated}</Text>}
               </HStack>
 
-              <HStack gap={1} align="center">
-                <LuStar fill="#FF9F1C" color="#FF9F1C" />
-                <Text fontWeight="bold" color="white" fontSize="xl">
-                  {movie.imdbRating}
-                </Text>
-                <Text color="lightGrey" fontSize="sm">
-                  / 10
-                </Text>
-                <Text color="midGrey" fontSize="xs" ml={1}>
-                  ({movie.imdbVotes} votes)
-                </Text>
-              </HStack>
+              {movie.imdbRating !== "N/A" && (
+                <HStack gap={1} align="center">
+                  <LuStar fill="#FF9F1C" color="#FF9F1C" />
+                  <Text fontWeight="bold" color="white" fontSize="xl">
+                    {movie.imdbRating}
+                  </Text>
+                  <Text color="lightGrey" fontSize="sm">
+                    / 10
+                  </Text>
+                  {movie.imdbVotes !== "N/A" && (
+                    <Text color="midGrey" fontSize="xs" ml={1}>
+                      ({movie.imdbVotes} votes)
+                    </Text>
+                  )}
+                </HStack>
+              )}
 
-              <Text color="lightGrey" lineHeight="tall">
-                {movie.Plot}
-              </Text>
+              {movie.Plot !== "N/A" && (
+                <Text color="lightGrey" lineHeight="tall">
+                  {movie.Plot}
+                </Text>
+              )}
 
               <VStack align="start" gap={2} w="100%">
-                <HStack gap={2}>
-                  <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                    Director
-                  </Text>
-                  <Text color="white">{movie.Director}</Text>
-                </HStack>
-                <HStack gap={2}>
-                  <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                    Cast
-                  </Text>
-                  <Text color="white">{movie.Actors}</Text>
-                </HStack>
-                <HStack gap={2}>
-                  <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                    Country
-                  </Text>
-                  <Text color="white">{movie.Country}</Text>
-                </HStack>
-                {movie.BoxOffice !== "N/A" && (
+                {movie.Director !== "N/A" && (
+                  <HStack gap={2}>
+                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
+                      Director
+                    </Text>
+                    <Text color="white">{movie.Director}</Text>
+                  </HStack>
+                )}
+                {movie.Actors !== "N/A" && (
+                  <HStack gap={2}>
+                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
+                      Cast
+                    </Text>
+                    <Text color="white">{movie.Actors}</Text>
+                  </HStack>
+                )}
+                {movie.Country !== "N/A" && (
+                  <HStack gap={2}>
+                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
+                      Country
+                    </Text>
+                    <Text color="white">{movie.Country}</Text>
+                  </HStack>
+                )}
+                {movie.BoxOffice && movie.BoxOffice !== "N/A" && (
                   <HStack gap={2}>
                     <Text color="lightGrey" fontWeight="semibold" minW="80px">
                       Box Office
