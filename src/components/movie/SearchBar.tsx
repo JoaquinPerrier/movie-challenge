@@ -26,18 +26,18 @@ export function SearchBar({ onSearch, initialQuery = "" }: SearchBarProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           size="lg"
-          bg="gray.800"
+          bg="grey"
           border="1px solid"
-          borderColor="gray.700"
+          borderColor="midGrey"
           color="white"
-          _placeholder={{ color: "gray.400" }}
-          _focus={{ borderColor: "brand.500", boxShadow: "0 0 0 1px var(--chakra-colors-brand-500)" }}
+          _placeholder={{ color: "lightGrey" }}
+          _focus={{ borderColor: "primary.500", boxShadow: "0 0 0 1px #FF9F1C" }}
         />
         <IconButton
           type="submit"
           aria-label="Search"
           size="lg"
-          colorPalette="brand"
+          colorPalette="primary"
           variant="solid"
         >
           <LuSearch />

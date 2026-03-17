@@ -24,12 +24,12 @@ export function CommentForm({ onSubmit }: CommentFormProps) {
   return (
     <Box as="form" onSubmit={handleSubmit}>
       <VStack gap={4} align="stretch">
-        <Text fontWeight="bold" fontSize="lg" color="white">
+        <Text fontWeight="semibold" fontSize="lg" color="white">
           Leave a Review
         </Text>
 
         <Box>
-          <Text fontSize="sm" color="gray.400" mb={1}>
+          <Text fontSize="sm" color="lightGrey" mb={1}>
             Your Rating
           </Text>
           <StarRating value={rating} onChange={setRating} />
@@ -39,28 +39,28 @@ export function CommentForm({ onSubmit }: CommentFormProps) {
           placeholder="Your name"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
-          bg="gray.800"
+          bg="grey"
           border="1px solid"
-          borderColor="gray.700"
+          borderColor="midGrey"
           color="white"
-          _placeholder={{ color: "gray.500" }}
+          _placeholder={{ color: "lightGrey" }}
         />
 
         <Textarea
           placeholder="Write your review..."
           value={text}
           onChange={(e) => setText(e.target.value)}
-          bg="gray.800"
+          bg="grey"
           border="1px solid"
-          borderColor="gray.700"
+          borderColor="midGrey"
           color="white"
-          _placeholder={{ color: "gray.500" }}
+          _placeholder={{ color: "lightGrey" }}
           rows={4}
         />
 
         <Button
           type="submit"
-          colorPalette="brand"
+          colorPalette="primary"
           variant="solid"
           alignSelf="flex-end"
           disabled={!author.trim() || !text.trim() || rating === 0}

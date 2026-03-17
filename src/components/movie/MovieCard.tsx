@@ -22,7 +22,7 @@ export function MovieCard({
         position="relative"
         borderRadius="lg"
         overflow="hidden"
-        bg="gray.800"
+        bg="grey"
         transition="transform 0.2s, box-shadow 0.2s"
         _hover={{
           transform: "translateY(-4px)",
@@ -56,7 +56,7 @@ export function MovieCard({
           >
             {movie.Title}
           </Text>
-          <Text color="gray.400" fontSize="xs">
+          <Text color="lightGrey" fontSize="xs">
             {movie.Year}
           </Text>
         </VStack>

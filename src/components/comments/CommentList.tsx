@@ -17,7 +17,7 @@ function formatDate(dateStr: string): string {
 export function CommentList({ comments }: CommentListProps) {
   if (comments.length === 0) {
     return (
-      <Text color="gray.500" textAlign="center" py={8}>
+      <Text color="lightGrey" textAlign="center" py={8}>
         No reviews yet. Be the first to leave one!
       </Text>
     );
@@ -27,20 +27,20 @@ export function CommentList({ comments }: CommentListProps) {
     <VStack gap={0} align="stretch">
       {comments.map((comment, index) => (
         <Box key={comment.id}>
-          {index > 0 && <Separator borderColor="gray.700" my={4} />}
+          {index > 0 && <Separator borderColor="midGrey" my={4} />}
           <VStack gap={2} align="stretch">
             <HStack justify="space-between">
               <HStack gap={3}>
-                <Text fontWeight="bold" color="white">
+                <Text fontWeight="semibold" color="white">
                   {comment.author}
                 </Text>
                 <StarRating value={comment.rating} readOnly size="14px" />
               </HStack>
-              <Text fontSize="xs" color="gray.500">
+              <Text fontSize="xs" color="lightGrey">
                 {formatDate(comment.createdAt)}
               </Text>
             </HStack>
-            <Text color="gray.300" fontSize="sm">
+            <Text color="lightGrey" fontSize="sm">
               {comment.text}
             </Text>
           </VStack>

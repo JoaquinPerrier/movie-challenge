@@ -14,18 +14,12 @@ export function HomePage() {
 
   return (
     <Box minH="calc(100vh - 64px)">
-      <Box
-        bgGradient="to-b"
-        gradientFrom="gray.900"
-        gradientTo="gray.950"
-        py={16}
-        px={4}
-      >
+      <Box bg="grey" py={16} px={4}>
         <VStack gap={4} textAlign="center">
-          <Heading size="3xl" color="white">
+          <Heading size="3xl" color="white" fontWeight="bold">
             Discover Your Next Favorite Movie
           </Heading>
-          <Text color="gray.400" fontSize="lg" maxW="600px">
+          <Text color="lightGrey" fontSize="lg" maxW="600px">
             Search through thousands of movies, read reviews, and save your
             favorites.
           </Text>

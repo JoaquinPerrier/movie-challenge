@@ -9,7 +9,7 @@ function App() {
   return (
     <ChakraProvider value={system}>
       <BrowserRouter>
-        <Box bg="gray.950" minH="100vh">
+        <Box bg="dark" minH="100vh">
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />

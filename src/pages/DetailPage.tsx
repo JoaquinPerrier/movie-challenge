@@ -8,7 +8,6 @@ import {
   Text,
   VStack,
   Badge,
-  Separator,
 } from "@chakra-ui/react";
 import { useParams, Link } from "react-router-dom";
 import { LuArrowLeft, LuClock, LuStar } from "react-icons/lu";
@@ -31,22 +30,10 @@ export function DetailPage() {
 
   return (
     <Box minH="calc(100vh - 64px)">
-      <Box
-        bgGradient="to-b"
-        gradientFrom="gray.900"
-        gradientTo="gray.950"
-        py={8}
-        px={4}
-      >
+      <Box bg="grey" py={8} px={4}>
         <Container maxW="1200px">
-          <Link
-            to="/"
-            style={{
-              textDecoration: "none",
-              color: "var(--chakra-colors-gray-400)",
-            }}
-          >
-            <HStack gap={1} mb={6} _hover={{ color: "white" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <HStack gap={1} mb={6} color="lightGrey" _hover={{ color: "white" }}>
               <LuArrowLeft />
               <Text fontSize="sm">Back to search</Text>
             </HStack>
@@ -82,18 +69,20 @@ export function DetailPage() {
                 {genres.map((genre) => (
                   <Badge
                     key={genre}
-                    colorPalette="brand"
-                    variant="subtle"
+                    bg="midGrey"
+                    color="white"
                     px={2}
                     py={1}
                     borderRadius="md"
+                    fontWeight="medium"
+                    fontSize="xs"
                   >
                     {genre}
                   </Badge>
                 ))}
               </HStack>
 
-              <HStack gap={6} color="gray.400" fontSize="sm">
+              <HStack gap={6} color="lightGrey" fontSize="sm">
                 <HStack gap={1}>
                   <LuClock />
                   <Text>{movie.Runtime}</Text>
@@ -103,44 +92,44 @@ export function DetailPage() {
               </HStack>
 
               <HStack gap={1} align="center">
-                <LuStar fill="#f5c518" color="#f5c518" />
+                <LuStar fill="#FF9F1C" color="#FF9F1C" />
                 <Text fontWeight="bold" color="white" fontSize="xl">
                   {movie.imdbRating}
                 </Text>
-                <Text color="gray.500" fontSize="sm">
+                <Text color="lightGrey" fontSize="sm">
                   / 10
                 </Text>
-                <Text color="gray.600" fontSize="xs" ml={1}>
+                <Text color="midGrey" fontSize="xs" ml={1}>
                   ({movie.imdbVotes} votes)
                 </Text>
               </HStack>
 
-              <Text color="gray.300" lineHeight="tall">
+              <Text color="lightGrey" lineHeight="tall">
                 {movie.Plot}
               </Text>
 
               <VStack align="start" gap={2} w="100%">
                 <HStack gap={2}>
-                  <Text color="gray.500" fontWeight="semibold" minW="80px">
+                  <Text color="lightGrey" fontWeight="semibold" minW="80px">
                     Director
                   </Text>
                   <Text color="white">{movie.Director}</Text>
                 </HStack>
                 <HStack gap={2}>
-                  <Text color="gray.500" fontWeight="semibold" minW="80px">
+                  <Text color="lightGrey" fontWeight="semibold" minW="80px">
                     Cast
                   </Text>
                   <Text color="white">{movie.Actors}</Text>
                 </HStack>
                 <HStack gap={2}>
-                  <Text color="gray.500" fontWeight="semibold" minW="80px">
+                  <Text color="lightGrey" fontWeight="semibold" minW="80px">
                     Country
                   </Text>
                   <Text color="white">{movie.Country}</Text>
                 </HStack>
                 {movie.BoxOffice !== "N/A" && (
                   <HStack gap={2}>
-                    <Text color="gray.500" fontWeight="semibold" minW="80px">
+                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
                       Box Office
                     </Text>
                     <Text color="white">{movie.BoxOffice}</Text>

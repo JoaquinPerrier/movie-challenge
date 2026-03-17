@@ -4,7 +4,7 @@ import { LuPopcorn } from "react-icons/lu";
 
 export function Header() {
   return (
-    <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px={4}>
+    <Box bg="grey" borderBottom="1px solid" borderColor="midGrey" px={4}>
       <Flex
         maxW="1200px"
         mx="auto"
@@ -14,10 +14,10 @@ export function Header() {
       >
         <Link to="/" style={{ textDecoration: "none" }}>
           <Flex align="center" gap={2}>
-            <LuPopcorn size={28} color="#f5c518" />
+            <LuPopcorn size={28} color="#FF9F1C" />
             <Text fontSize="xl" fontWeight="bold" color="white">
               Movie
-              <Text as="span" color="brand.500">
+              <Text as="span" color="primary.500">
                 Box
               </Text>
             </Text>

@@ -27,12 +27,12 @@ export function StarRating({
             key={i}
             as={LuStar}
             boxSize={size}
-            color={filled ? "brand.500" : "gray.500"}
-            fill={filled ? "var(--chakra-colors-brand-500)" : "none"}
+            color={filled ? "primary.500" : "midGrey"}
+            fill={filled ? "#FF9F1C" : "none"}
             cursor={readOnly ? "default" : "pointer"}
             onClick={() => !readOnly && onChange?.(starValue)}
             transition="color 0.2s, fill 0.2s"
-            _hover={!readOnly ? { color: "brand.400" } : undefined}
+            _hover={!readOnly ? { color: "primary.400" } : undefined}
           />
         );
       })}

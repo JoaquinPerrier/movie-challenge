@@ -22,8 +22,8 @@ export function FavoriteButton({
       }}
       variant="ghost"
       size={size}
-      color={isFavorite ? "red.500" : "gray.400"}
-      _hover={{ color: isFavorite ? "red.400" : "red.300" }}
+      color={isFavorite ? "secondary.500" : "lightGrey"}
+      _hover={{ color: isFavorite ? "secondary.400" : "secondary.300" }}
     >
       <LuHeart
         fill={isFavorite ? "currentColor" : "none"}
