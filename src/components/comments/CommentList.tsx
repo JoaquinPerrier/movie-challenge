@@ -1,5 +1,4 @@
-import { Box, Text, VStack, HStack, Separator } from "@chakra-ui/react";
-import { StarRating } from "@/components/rating/StarRating";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import type { Comment } from "@/types/movie";
 
 interface CommentListProps {
@@ -9,7 +8,7 @@ interface CommentListProps {
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("en-US", {
     year: "numeric",
-    month: "short",
+    month: "long",
     day: "numeric",
   });
 }
@@ -18,32 +17,21 @@ export function CommentList({ comments }: CommentListProps) {
   if (comments.length === 0) {
     return (
       <Text color="lightGrey" textAlign="center" py={8}>
-        No reviews yet. Be the first to leave one!
+        No comments yet. Be the first to leave one!
       </Text>
     );
   }
 
   return (
-    <VStack gap={0} align="stretch">
-      {comments.map((comment, index) => (
+    <VStack gap={6} align="stretch">
+      {comments.map((comment) => (
         <Box key={comment.id}>
-          {index > 0 && <Separator borderColor="midGrey" my={4} />}
-          <VStack gap={2} align="stretch">
-            <HStack justify="space-between">
-              <HStack gap={3}>
-                <Text fontWeight="semibold" color="white">
-                  {comment.author}
-                </Text>
-                <StarRating value={comment.rating} readOnly size="14px" />
-              </HStack>
-              <Text fontSize="xs" color="lightGrey">
-                {formatDate(comment.createdAt)}
-              </Text>
-            </HStack>
-            <Text color="lightGrey" fontSize="sm">
-              {comment.text}
-            </Text>
-          </VStack>
+          <Text color="tertiary.500" fontSize="sm" fontWeight="medium" mb={2}>
+            {comment.author} – {formatDate(comment.createdAt)}
+          </Text>
+          <Text color="white" fontSize="sm" lineHeight="tall" whiteSpace="pre-line">
+            {comment.text}
+          </Text>
         </Box>
       ))}
     </VStack>

@@ -8,27 +8,36 @@ import {
   Image,
   Text,
   VStack,
-  Badge,
   Spinner,
+  SimpleGrid,
 } from "@chakra-ui/react";
-import { useParams, Link } from "react-router-dom";
-import { LuArrowLeft, LuClock, LuStar } from "react-icons/lu";
-import { FavoriteButton } from "@/components/favorites/FavoriteButton";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { LuArrowLeft } from "react-icons/lu";
 import { CommentForm } from "@/components/comments/CommentForm";
 import { CommentList } from "@/components/comments/CommentList";
-import { useSingleFavorite } from "@/hooks/useFavorites";
 import { useComments } from "@/hooks/useComments";
 import { getMovieById } from "@/services/omdb";
 import type { MovieDetail } from "@/types/movie";
 
 const PLACEHOLDER_IMG = "https://via.placeholder.com/300x450?text=No+Poster";
 
+function formatRuntime(runtime: string): string {
+  if (runtime === "N/A") return "";
+  const mins = parseInt(runtime);
+  if (isNaN(mins)) return runtime;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
+}
+
 export function DetailPage() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { isFavorite, toggle } = useSingleFavorite(id ?? "");
   const { comments, addComment } = useComments(id ?? "");
 
   useEffect(() => {
@@ -49,7 +58,7 @@ export function DetailPage() {
 
   if (loading) {
     return (
-      <Flex justify="center" align="center" minH="calc(100vh - 64px)">
+      <Flex justify="center" align="center" minH="calc(100vh - 72px)">
         <Spinner size="xl" color="primary.500" />
       </Flex>
     );
@@ -57,7 +66,7 @@ export function DetailPage() {
 
   if (error || !movie) {
     return (
-      <Flex justify="center" align="center" minH="calc(100vh - 64px)" direction="column" gap={4}>
+      <Flex justify="center" align="center" minH="calc(100vh - 72px)" direction="column" gap={4}>
         <Text color="secondary.500" fontSize="lg">
           {error ?? "Movie not found"}
         </Text>
@@ -70,150 +79,181 @@ export function DetailPage() {
     );
   }
 
-  const genres = movie.Genre ? movie.Genre.split(", ") : [];
+  const genres = movie.Genre && movie.Genre !== "N/A" ? movie.Genre.split(", ") : [];
+  const actors = movie.Actors && movie.Actors !== "N/A" ? movie.Actors.split(", ") : [];
+  const writers = movie.Writer && movie.Writer !== "N/A" ? movie.Writer.split(", ") : [];
+  const runtime = formatRuntime(movie.Runtime);
+
+  const metaParts = [runtime, movie.Year, movie.Rated].filter(
+    (p) => p && p !== "N/A",
+  );
 
   return (
-    <Box minH="calc(100vh - 64px)">
-      <Box bg="grey" py={8} px={4}>
-        <Container maxW="1200px">
-          <Link to="/" style={{ textDecoration: "none" }}>
-            <HStack gap={1} mb={6} color="lightGrey" _hover={{ color: "white" }}>
-              <LuArrowLeft />
-              <Text fontSize="sm">Back to search</Text>
-            </HStack>
-          </Link>
+    <Box minH="calc(100vh - 72px)" bg="grey">
+      <Container maxW="1200px" px={6} py={6}>
+        <Box
+          as="button"
+          onClick={() => navigate(-1)}
+          color="lightGrey"
+          mb={6}
+          cursor="pointer"
+          bg="none"
+          border="none"
+          p={0}
+          _hover={{ color: "white" }}
+          transition="color 0.2s"
+        >
+          <LuArrowLeft size={24} />
+        </Box>
 
-          <Flex
-            direction={{ base: "column", md: "row" }}
-            gap={8}
-            align="start"
-          >
-            <Image
-              src={movie.Poster !== "N/A" ? movie.Poster : PLACEHOLDER_IMG}
-              alt={movie.Title}
-              borderRadius="lg"
-              w={{ base: "200px", md: "300px" }}
-              objectFit="cover"
-              flexShrink={0}
-            />
+        <Flex
+          direction={{ base: "column", md: "row" }}
+          gap={8}
+          align="start"
+        >
+          <Image
+            src={movie.Poster !== "N/A" ? movie.Poster : PLACEHOLDER_IMG}
+            alt={movie.Title}
+            borderRadius="lg"
+            w={{ base: "200px", md: "280px" }}
+            objectFit="cover"
+            flexShrink={0}
+          />
 
-            <VStack align="start" gap={4} flex={1}>
-              <Flex align="center" gap={3} w="100%">
-                <Heading size="2xl" color="white" flex={1}>
-                  {movie.Title}
-                </Heading>
-                <FavoriteButton
-                  isFavorite={isFavorite}
-                  onToggle={toggle}
-                  size="lg"
-                />
-              </Flex>
+          <VStack align="start" gap={3} flex={1}>
+            <Heading
+              fontSize={{ base: "3xl", md: "4xl" }}
+              color="white"
+              fontWeight="bold"
+              lineHeight="shorter"
+            >
+              {movie.Title}
+            </Heading>
 
-              {genres.length > 0 && (
-                <HStack gap={2} flexWrap="wrap">
-                  {genres.map((genre) => (
-                    <Badge
-                      key={genre}
-                      bg="midGrey"
-                      color="white"
-                      px={2}
-                      py={1}
-                      borderRadius="md"
-                      fontWeight="medium"
-                      fontSize="xs"
-                    >
-                      {genre}
-                    </Badge>
-                  ))}
-                </HStack>
-              )}
+            {movie.Title !== movie.Title && (
+              <Text color="lightGrey" fontSize="sm">
+                Original title: {movie.Title}
+              </Text>
+            )}
 
-              <HStack gap={6} color="lightGrey" fontSize="sm">
-                {movie.Runtime !== "N/A" && (
-                  <HStack gap={1}>
-                    <LuClock />
-                    <Text>{movie.Runtime}</Text>
-                  </HStack>
-                )}
-                <Text>{movie.Year}</Text>
-                {movie.Rated !== "N/A" && <Text>{movie.Rated}</Text>}
+            <Text color="lightGrey" fontSize="sm">
+              {metaParts.join(" – ")}
+            </Text>
+
+            {movie.imdbRating && movie.imdbRating !== "N/A" && (
+              <HStack gap={2} align="center">
+                <Flex
+                  bg="primary.500"
+                  borderRadius="md"
+                  px={2}
+                  py={0.5}
+                  align="center"
+                  justify="center"
+                >
+                  <Text
+                    fontSize="xs"
+                    fontWeight="bold"
+                    color="dark"
+                    letterSpacing="tight"
+                  >
+                    IMDb
+                  </Text>
+                </Flex>
+                <Text fontWeight="semibold" color="white" fontSize="md">
+                  {movie.imdbRating}
+                  <Text as="span" color="lightGrey" fontWeight="normal">
+                    /10
+                  </Text>
+                </Text>
               </HStack>
+            )}
 
-              {movie.imdbRating !== "N/A" && (
-                <HStack gap={1} align="center">
-                  <LuStar fill="#FF9F1C" color="#FF9F1C" />
-                  <Text fontWeight="bold" color="white" fontSize="xl">
-                    {movie.imdbRating}
-                  </Text>
-                  <Text color="lightGrey" fontSize="sm">
-                    / 10
-                  </Text>
-                  {movie.imdbVotes !== "N/A" && (
-                    <Text color="midGrey" fontSize="xs" ml={1}>
-                      ({movie.imdbVotes} votes)
-                    </Text>
-                  )}
-                </HStack>
-              )}
-
-              {movie.Plot !== "N/A" && (
-                <Text color="lightGrey" lineHeight="tall">
+            {movie.Plot && movie.Plot !== "N/A" && (
+              <Box mt={2}>
+                <Text
+                  color="lightGrey"
+                  fontSize="sm"
+                  fontWeight="medium"
+                  mb={1}
+                >
+                  Overview
+                </Text>
+                <Text color="white" fontSize="sm" lineHeight="tall">
                   {movie.Plot}
                 </Text>
+              </Box>
+            )}
+
+            <SimpleGrid
+              columns={{ base: 2, md: 4 }}
+              gap={6}
+              w="100%"
+              mt={4}
+            >
+              {actors.length > 0 && (
+                <VStack align="start" gap={1}>
+                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                    Cast
+                  </Text>
+                  {actors.map((actor) => (
+                    <Text key={actor} color="white" fontSize="sm">
+                      {actor}
+                    </Text>
+                  ))}
+                </VStack>
               )}
 
-              <VStack align="start" gap={2} w="100%">
-                {movie.Director !== "N/A" && (
-                  <HStack gap={2}>
-                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                      Director
+              {genres.length > 0 && (
+                <VStack align="start" gap={1}>
+                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                    Genre
+                  </Text>
+                  {genres.map((genre) => (
+                    <Text key={genre} color="white" fontSize="sm">
+                      {genre}
                     </Text>
-                    <Text color="white">{movie.Director}</Text>
-                  </HStack>
-                )}
-                {movie.Actors !== "N/A" && (
-                  <HStack gap={2}>
-                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                      Cast
-                    </Text>
-                    <Text color="white">{movie.Actors}</Text>
-                  </HStack>
-                )}
-                {movie.Country !== "N/A" && (
-                  <HStack gap={2}>
-                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                      Country
-                    </Text>
-                    <Text color="white">{movie.Country}</Text>
-                  </HStack>
-                )}
-                {movie.BoxOffice && movie.BoxOffice !== "N/A" && (
-                  <HStack gap={2}>
-                    <Text color="lightGrey" fontWeight="semibold" minW="80px">
-                      Box Office
-                    </Text>
-                    <Text color="white">{movie.BoxOffice}</Text>
-                  </HStack>
-                )}
-              </VStack>
-            </VStack>
-          </Flex>
-        </Container>
-      </Box>
+                  ))}
+                </VStack>
+              )}
 
-      <Container maxW="1200px" py={10} px={4}>
-        <Heading size="xl" color="white" mb={6}>
-          Reviews
+              {movie.Director && movie.Director !== "N/A" && (
+                <VStack align="start" gap={1}>
+                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                    Director
+                  </Text>
+                  <Text color="white" fontSize="sm">
+                    {movie.Director}
+                  </Text>
+                </VStack>
+              )}
+
+              {writers.length > 0 && (
+                <VStack align="start" gap={1}>
+                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                    Writers
+                  </Text>
+                  {writers.map((writer) => (
+                    <Text key={writer} color="white" fontSize="sm">
+                      {writer}
+                    </Text>
+                  ))}
+                </VStack>
+              )}
+            </SimpleGrid>
+          </VStack>
+        </Flex>
+      </Container>
+
+      <Container maxW="1200px" py={10} px={6}>
+        <Heading size="xl" color="white" fontWeight="bold" mb={6}>
+          Commentary
         </Heading>
 
-        <Flex direction={{ base: "column", lg: "row" }} gap={10}>
-          <Box flex={1}>
-            <CommentList comments={comments} />
-          </Box>
-          <Box w={{ base: "100%", lg: "400px" }} flexShrink={0}>
-            <CommentForm onSubmit={addComment} />
-          </Box>
-        </Flex>
+        <CommentForm onSubmit={addComment} />
+
+        <Box mt={8}>
+          <CommentList comments={comments} />
+        </Box>
       </Container>
     </Box>
   );
