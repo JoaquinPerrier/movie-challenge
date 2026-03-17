@@ -1,4 +1,4 @@
-import { Box, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import type { MovieSearchResult } from "@/types/movie";
@@ -16,21 +16,41 @@ export function MovieCard({
   isFavorite,
   onToggleFavorite,
 }: MovieCardProps) {
+  const isSeriesType = movie.Type === "series";
+
   return (
     <Link to={`/movie/${movie.imdbID}`} style={{ textDecoration: "none" }}>
       <Box
         position="relative"
-        borderRadius="lg"
+        borderRadius="xl"
         overflow="hidden"
-        bg="grey"
         transition="transform 0.2s, box-shadow 0.2s"
         _hover={{
           transform: "translateY(-4px)",
           boxShadow: "xl",
         }}
         cursor="pointer"
-        h="100%"
       >
+        {isSeriesType && (
+          <Box
+            position="absolute"
+            top={3}
+            left={3}
+            zIndex={1}
+            bg="rgba(255, 255, 255, 0.5)"
+            color="dark"
+            fontSize="9px"
+            fontWeight="medium"
+            px={2}
+            py={0.5}
+            borderRadius="full"
+            textTransform="uppercase"
+            letterSpacing="0.05em"
+          >
+            TV Series
+          </Box>
+        )}
+
         <Box position="absolute" top={2} right={2} zIndex={1}>
           <FavoriteButton
             isFavorite={isFavorite}
@@ -43,23 +63,9 @@ export function MovieCard({
           src={movie.Poster !== "N/A" ? movie.Poster : PLACEHOLDER_IMG}
           alt={movie.Title}
           w="100%"
-          h="350px"
+          aspectRatio="2/3"
           objectFit="cover"
         />
-
-        <VStack gap={1} p={3} align="start">
-          <Text
-            color="white"
-            fontWeight="semibold"
-            fontSize="sm"
-            lineClamp={1}
-          >
-            {movie.Title}
-          </Text>
-          <Text color="lightGrey" fontSize="xs">
-            {movie.Year}
-          </Text>
-        </VStack>
       </Box>
     </Link>
   );

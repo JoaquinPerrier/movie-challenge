@@ -14,7 +14,7 @@ export function MovieGrid({
   onToggleFavorite,
 }: MovieGridProps) {
   return (
-    <SimpleGrid columns={{ base: 2, sm: 3, md: 4, lg: 5 }} gap={5}>
+    <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={5}>
       {movies.map((movie) => (
         <MovieCard
           key={movie.imdbID}

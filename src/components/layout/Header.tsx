@@ -1,25 +1,25 @@
 import { Box, Flex, Text } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import { LuPopcorn } from "react-icons/lu";
+import { LuClapperboard } from "react-icons/lu";
 
 export function Header() {
   return (
-    <Box bg="grey" borderBottom="1px solid" borderColor="midGrey" px={4}>
-      <Flex
-        maxW="1200px"
-        mx="auto"
-        h="64px"
-        align="center"
-        justify="space-between"
-      >
+    <Box bg="dark" px={6} py={4}>
+      <Flex maxW="1200px" mx="auto" align="center">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <Flex align="center" gap={2}>
-            <LuPopcorn size={28} color="#FF9F1C" />
-            <Text fontSize="xl" fontWeight="bold" color="white">
-              Movie
-              <Text as="span" color="primary.500">
-                Box
-              </Text>
+          <Flex align="center" gap={3}>
+            <Flex
+              align="center"
+              justify="center"
+              bg="secondary.500"
+              borderRadius="lg"
+              w="40px"
+              h="40px"
+            >
+              <LuClapperboard size={22} color="white" />
+            </Flex>
+            <Text fontSize="xl" fontWeight="semibold" color="white">
+              MovieBox
             </Text>
           </Flex>
         </Link>

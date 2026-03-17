@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Input, IconButton, Flex } from "@chakra-ui/react";
+import { Input, Flex, Icon } from "@chakra-ui/react";
 import { LuSearch } from "react-icons/lu";
 
 interface SearchBarProps {
@@ -20,28 +20,24 @@ export function SearchBar({ onSearch, initialQuery = "" }: SearchBarProps) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Flex gap={2} maxW="600px" mx="auto">
+      <Flex
+        align="center"
+        bg="white"
+        borderRadius="md"
+        px={4}
+        h="48px"
+      >
+        <Icon as={LuSearch} color="gray.400" boxSize="18px" mr={3} />
         <Input
-          placeholder="Search movies..."
+          placeholder="Search movies"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          size="lg"
-          bg="grey"
-          border="1px solid"
-          borderColor="midGrey"
-          color="white"
-          _placeholder={{ color: "lightGrey" }}
-          _focus={{ borderColor: "primary.500", boxShadow: "0 0 0 1px #FF9F1C" }}
+          variant="flushed"
+          border="none"
+          color="gray.900"
+          fontSize="md"
+          _placeholder={{ color: "gray.400" }}
         />
-        <IconButton
-          type="submit"
-          aria-label="Search"
-          size="lg"
-          colorPalette="primary"
-          variant="solid"
-        >
-          <LuSearch />
-        </IconButton>
       </Flex>
     </form>
   );
