@@ -19,7 +19,7 @@ import { useComments } from "@/hooks/useComments";
 import { getMovieById } from "@/services/omdb";
 import type { MovieDetail } from "@/types/movie";
 
-const PLACEHOLDER_IMG = "https://via.placeholder.com/300x450?text=No+Poster";
+const FALLBACK_IMG = "/NoImageAvailable.jpg";
 
 function formatRuntime(runtime: string): string {
   if (runtime === "N/A") return "";
@@ -112,7 +112,8 @@ export function DetailPage() {
           align="start"
         >
           <Image
-            src={movie.Poster !== "N/A" ? movie.Poster : PLACEHOLDER_IMG}
+            src={movie.Poster !== "N/A" ? movie.Poster : FALLBACK_IMG}
+            onError={(e) => { e.currentTarget.src = FALLBACK_IMG; }}
             alt={movie.Title}
             borderRadius="lg"
             w={{ base: "200px", md: "280px" }}

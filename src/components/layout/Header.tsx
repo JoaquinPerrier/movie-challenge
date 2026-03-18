@@ -5,7 +5,7 @@ import { LuTvMinimalPlay  } from "react-icons/lu";
 export function Header() {
   return (
     <Box bg="dark" px={6} py={12}>
-      <Flex maxW="1200px" mx="auto" align="center">
+      <Flex maxW="1250px" mx="auto" align="center">
         <Link to="/" style={{ textDecoration: "none" }}>
           <Flex align="center" gap={6}>
             <Flex

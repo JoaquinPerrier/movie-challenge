@@ -1,4 +1,4 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import { MovieCard } from "./MovieCard";
 import type { MovieSearchResult } from "@/types/movie";
 
@@ -14,15 +14,19 @@ export function MovieGrid({
   onToggleFavorite,
 }: MovieGridProps) {
   return (
-    <SimpleGrid columns={{ base: 2, md: 3, lg: 4 }} gap={5}>
+    <Flex wrap="wrap" gap={5} justify="center">
       {movies.map((movie) => (
-        <MovieCard
+        <Box
           key={movie.imdbID}
-          movie={movie}
-          isFavorite={favorites.includes(movie.imdbID)}
-          onToggleFavorite={() => onToggleFavorite(movie.imdbID)}
-        />
+          w={{ base: "calc(50% - 10px)", md: "calc(33.33% - 14px)", lg: "calc(25% - 15px)" }}
+        >
+          <MovieCard
+            movie={movie}
+            isFavorite={favorites.includes(movie.imdbID)}
+            onToggleFavorite={() => onToggleFavorite(movie.imdbID)}
+          />
+        </Box>
       ))}
-    </SimpleGrid>
+    </Flex>
   );
 }

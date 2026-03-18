@@ -25,6 +25,7 @@ export function HomePage() {
   const page = Number(searchParams.get("page") ?? "1");
 
   const [movies, setMovies] = useState<MovieSearchResult[]>([]);
+  console.log(movies);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
