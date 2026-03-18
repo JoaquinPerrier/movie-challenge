@@ -90,12 +90,12 @@ export function DetailPage() {
 
   return (
     <Box minH="calc(100vh - 72px)" bg="grey">
-      <Container maxW="1200px" px={6} py={6}>
+      <Container maxW="1200px" px={{ base: 4, md: 6 }} py={{ base: 3, md: 6 }}>
         <Box
           as="button"
           onClick={() => navigate(-1)}
           color="lightGrey"
-          mb={6}
+          mb={{ base: 3, md: 6 }}
           cursor="pointer"
           bg="none"
           border="none"
@@ -103,12 +103,12 @@ export function DetailPage() {
           _hover={{ color: "white" }}
           transition="color 0.2s"
         >
-          <LuArrowLeft size={24} />
+          <LuArrowLeft size={20} />
         </Box>
 
         <Flex
           direction={{ base: "column", md: "row" }}
-          gap={8}
+          gap={{ base: 5, md: 8 }}
           align="start"
         >
           <Image
@@ -116,8 +116,8 @@ export function DetailPage() {
             onError={(e) => { e.currentTarget.src = FALLBACK_IMG; }}
             alt={movie.Title}
             borderRadius="lg"
-            w={{ base: "200px", md: "280px" }}
-            objectFit="cover"
+            w={{ base: "90%", md: "280px" }}
+            objectFit={{ base: "contain", md: "cover" }}
             flexShrink={0}
           />
 
@@ -152,8 +152,8 @@ export function DetailPage() {
                   justify="center"
                 >
                   <Text
-                    fontSize="xs"
-                    fontWeight="bold"
+                    fontSize="lg"
+                    fontWeight="black"
                     color="dark"
                     letterSpacing="tight"
                   >
@@ -162,7 +162,7 @@ export function DetailPage() {
                 </Flex>
                 <Text fontWeight="semibold" color="white" fontSize="md">
                   {movie.imdbRating}
-                  <Text as="span" color="lightGrey" fontWeight="normal">
+                  <Text as="span" color="lightGrey" fontWeight="medium">
                     /10
                   </Text>
                 </Text>
@@ -172,32 +172,32 @@ export function DetailPage() {
             {movie.Plot && movie.Plot !== "N/A" && (
               <Box mt={2}>
                 <Text
-                  color="lightGrey"
-                  fontSize="sm"
-                  fontWeight="medium"
+                  color="tertiary.500"
+                  fontSize="md"
+                  fontWeight="semibold"
                   mb={1}
                 >
                   Overview
                 </Text>
-                <Text color="white" fontSize="sm" lineHeight="tall">
+                <Text color="white" fontSize="md" lineHeight="tall">
                   {movie.Plot}
                 </Text>
               </Box>
             )}
 
             <SimpleGrid
-              columns={{ base: 2, md: 4 }}
-              gap={6}
+              columns={{ base: 3, md: 4 }}
+              gap={{ base: 4, md: 6 }}
               w="100%"
               mt={4}
             >
               {actors.length > 0 && (
                 <VStack align="start" gap={1}>
-                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                  <Text color="lightGrey" fontSize="md" fontWeight="semibold">
                     Cast
                   </Text>
                   {actors.map((actor) => (
-                    <Text key={actor} color="white" fontSize="sm">
+                    <Text key={actor} color="white" fontSize="md">
                       {actor}
                     </Text>
                   ))}
@@ -206,11 +206,11 @@ export function DetailPage() {
 
               {genres.length > 0 && (
                 <VStack align="start" gap={1}>
-                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                  <Text color="lightGrey" fontSize="md" fontWeight="medium">
                     Genre
                   </Text>
                   {genres.map((genre) => (
-                    <Text key={genre} color="white" fontSize="sm">
+                    <Text key={genre} color="white" fontSize="md">
                       {genre}
                     </Text>
                   ))}
@@ -219,10 +219,10 @@ export function DetailPage() {
 
               {movie.Director && movie.Director !== "N/A" && (
                 <VStack align="start" gap={1}>
-                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                  <Text color="lightGrey" fontSize="md" fontWeight="semibold">
                     Director
                   </Text>
-                  <Text color="white" fontSize="sm">
+                  <Text color="white" fontSize="md">
                     {movie.Director}
                   </Text>
                 </VStack>
@@ -230,11 +230,11 @@ export function DetailPage() {
 
               {writers.length > 0 && (
                 <VStack align="start" gap={1}>
-                  <Text color="lightGrey" fontSize="sm" fontWeight="medium">
+                  <Text color="lightGrey" fontSize="md" fontWeight="semibold">
                     Writers
                   </Text>
                   {writers.map((writer) => (
-                    <Text key={writer} color="white" fontSize="sm">
+                    <Text key={writer} color="white" fontSize="md">
                       {writer}
                     </Text>
                   ))}
@@ -245,7 +245,7 @@ export function DetailPage() {
         </Flex>
       </Container>
 
-      <Container maxW="1200px" py={10} px={6}>
+      <Container maxW="1200px" py={{ base: 6, md: 10 }} px={{ base: 4, md: 6 }}>
         <Heading size="xl" color="white" fontWeight="bold" mb={6}>
           Commentary
         </Heading>
