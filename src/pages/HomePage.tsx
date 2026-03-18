@@ -67,8 +67,8 @@ export function HomePage() {
   };
 
   return (
-    <Box minH="calc(100vh - 72px)" bg="dark">
-      <Container maxW="1200px" px={6}>
+    <Box bg="dark">
+      <Container maxW="1250px" px={6}>
         <Box py={4}>
           <SearchBar onSearch={handleSearch} initialQuery={query} />
         </Box>
