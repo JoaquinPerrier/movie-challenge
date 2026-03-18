@@ -25,7 +25,6 @@ export function HomePage() {
   const page = Number(searchParams.get("page") ?? "1");
 
   const [movies, setMovies] = useState<MovieSearchResult[]>([]);
-  console.log(movies);
   const [totalResults, setTotalResults] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -75,20 +74,22 @@ export function HomePage() {
   };
 
   return (
-    <Box bg="dark">
-      <Container maxW="1250px" px={6}>
+    <Flex direction="column" bg="dark">
+      <Container maxW="1250px" px={{ base: 4, md: 6 }} w="100%">
         <Box py={4}>
           <SearchBar onSearch={handleSearch} initialQuery={query} />
         </Box>
+      </Container>
 
-        {!query && <EmptyState />}
+      {!query && <EmptyState />}
 
-        {query && (
+      {query && (
+        <Container maxW="1250px" px={{ base: 4, md: 6 }} w="100%">
           <Box py={6}>
-            <Heading size="xl" color="white" mb={6}>
+            <Heading size={{ base: "lg", md: "xl" }} color="white" mb={6}>
               Results for &ldquo;{query}&rdquo;
               {totalResults > 0 && (
-                <Text as="span" color="lightGrey" fontSize="md" fontWeight="normal" ml={2}>
+                <Text as="span" color="lightGrey" fontSize={{ base: "sm", md: "md" }} fontWeight="normal" ml={2}>
                   ({totalResults} found)
                 </Text>
               )}
@@ -144,8 +145,8 @@ export function HomePage() {
               </>
             )}
           </Box>
-        )}
-      </Container>
-    </Box>
+        </Container>
+      )}
+    </Flex>
   );
 }

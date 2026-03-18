@@ -66,39 +66,9 @@ npm run test:run
 npm run test:coverage
 ```
 
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── comments/       # Comment form & list
-│   ├── favorites/      # Favorite button
-│   ├── layout/         # Header, layout components
-│   ├── movie/          # Movie card, grid, search
-│   └── rating/         # Star rating component
-├── hooks/              # Custom React hooks
-├── mocks/              # Mock data for development
-├── pages/              # Page components (Home, Detail)
-├── services/           # API client & localStorage helpers
-├── test/               # Test setup
-├── theme/              # Chakra UI custom theme
-└── types/              # TypeScript type definitions
-```
-
 ## Future Improvements
 
-- Integrate with OMDb API for real movie search
-- Add pagination for search results
-- Add loading states and error handling
-- Implement user authentication
-- Backend API for persisting comments
+- Implement user authentication (so comments have an owner)
+- Backend API for persisting comment
 - Add movie trailers (YouTube integration)
 - Responsive image optimization with lazy loading
-- E2E tests with Playwright
-- Deploy to Vercel
-- Accessibility improvements (ARIA labels, keyboard navigation)
-- Add movie recommendations based on user favorites
-
-## Time Invested
-
-~4 hours
