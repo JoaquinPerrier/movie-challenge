@@ -1,5 +1,4 @@
 import { Flex, Text, Image } from "@chakra-ui/react";
-import landingImg from "/LandingImg.png";
 
 export function EmptyState() {
   return (
@@ -12,8 +11,8 @@ export function EmptyState() {
       py={8}
     >
       <Image
-        src={landingImg}
-        alt=""
+        src="/LandingImg.png"
+        alt="Landing illustration"
         w={{ base: "240px", md: "340px", lg: "420px" }}
         mx="auto"
         mb={{ base: 6, md: 10 }}
