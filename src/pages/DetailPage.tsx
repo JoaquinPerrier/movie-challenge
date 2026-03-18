@@ -15,7 +15,9 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { LuArrowLeft } from "react-icons/lu";
 import { CommentForm } from "@/components/comments/CommentForm";
 import { CommentList } from "@/components/comments/CommentList";
+import { FavoriteButton } from "@/components/favorites/FavoriteButton";
 import { useComments } from "@/hooks/useComments";
+import { useSingleFavorite } from "@/hooks/useFavorites";
 import { getMovieById } from "@/services/omdb";
 import type { MovieDetail } from "@/types/movie";
 
@@ -39,6 +41,7 @@ export function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { comments, addComment, loading: commentsLoading } = useComments(id ?? "");
+  const { isFavorite, toggle: toggleFavorite } = useSingleFavorite(id ?? "");
 
   useEffect(() => {
     if (!id) return;
@@ -122,14 +125,22 @@ export function DetailPage() {
           />
 
           <VStack align="start" gap={3} flex={1}>
-            <Heading
-              fontSize={{ base: "3xl", md: "4xl" }}
-              color="white"
-              fontWeight="bold"
-              lineHeight="shorter"
-            >
-              {movie.Title}
-            </Heading>
+            <HStack gap={3} align="center" w="100%">
+              <Heading
+                fontSize={{ base: "3xl", md: "4xl" }}
+                color="white"
+                fontWeight="bold"
+                lineHeight="shorter"
+                flex={1}
+              >
+                {movie.Title}
+              </Heading>
+              <FavoriteButton
+                isFavorite={isFavorite}
+                onToggle={toggleFavorite}
+                size="lg"
+              />
+            </HStack>
 
             {movie.Title !== movie.Title && (
               <Text color="lightGrey" fontSize="sm">

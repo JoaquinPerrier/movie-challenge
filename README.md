@@ -70,6 +70,11 @@ npm run test:coverage
 ## Future Improvements
 
 - Implement user authentication (so comments have an owner)
+- Visual rating of comments
 - Backend API for persisting comments
 - Add movie trailers
 - Responsive image optimization with lazy loading
+
+## Project time Invested
+
+Approximately 6 to 7 hours

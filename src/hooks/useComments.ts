@@ -15,13 +15,16 @@ export function useComments(movieId: string) {
 
     const stored = getComments(movieId);
 
+    const sortByDate = (a: Comment, b: Comment) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+
     setLoading(true);
     fetchComments(movieId)
       .then((apiComments) => {
-        setComments([...stored, ...apiComments]);
+        setComments([...stored, ...apiComments].sort(sortByDate));
       })
       .catch(() => {
-        setComments(stored);
+        setComments(stored.sort(sortByDate));
       })
       .finally(() => setLoading(false));
   }, [movieId]);
