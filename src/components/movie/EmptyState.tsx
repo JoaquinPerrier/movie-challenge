@@ -1,16 +1,14 @@
-import { VStack, Text, Box } from "@chakra-ui/react";
-import { LuPopcorn } from "react-icons/lu";
+import { VStack, Text, Image } from "@chakra-ui/react";
+import landingImg from "/LandingImg.png";
 
 export function EmptyState() {
   return (
-    <VStack gap={4} py={16} textAlign="center">
-      <Box color="lightGrey" opacity={0.6}>
-        <LuPopcorn size={120} />
-      </Box>
-      <Text color="white" fontWeight="semibold" fontSize="xl">
+    <VStack textAlign="center">
+      <Image src={landingImg} alt="" w="440px" mx="auto" mt={55} mb={12} pt={35} pb={35} />
+      <Text color="white" fontWeight="semibold" fontSize="3xl">
         Don&apos;t know what to search?
       </Text>
-      <Text color="tertiary.500" fontSize="sm">
+      <Text color="midGrey" fontSize="lg" fontWeight="semibold">
         Here&apos;s an offer you can&apos;t refuse
       </Text>
     </VStack>
