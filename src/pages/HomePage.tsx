@@ -57,7 +57,14 @@ export function HomePage() {
   }, [query, page, fetchMovies]);
 
   const handleSearch = (q: string) => {
-    setSearchParams({ q, page: "1" });
+    if (q) {
+      setSearchParams({ q, page: "1" });
+    } else {
+      setSearchParams({});
+      setMovies([]);
+      setTotalResults(0);
+      setError(null);
+    }
   };
 
   const totalPages = Math.ceil(totalResults / 10);
