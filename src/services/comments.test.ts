@@ -4,7 +4,8 @@ import { fetchComments } from "./comments";
 
 vi.mock("axios");
 
-const mockedAxios = vi.mocked(axios);
+const mockGet = vi.fn();
+(axios as unknown as { get: typeof mockGet }).get = mockGet;
 
 describe("fetchComments", () => {
   beforeEach(() => {
@@ -22,11 +23,11 @@ describe("fetchComments", () => {
       },
     ];
 
-    mockedAxios.get.mockResolvedValueOnce({ data: apiResponse });
+    mockGet.mockResolvedValueOnce({ data: apiResponse });
 
     const result = await fetchComments("tt0000000");
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
+    expect(mockGet).toHaveBeenCalledWith(
       "https://jsonplaceholder.typicode.com/comments",
       { params: { postId: expect.any(Number) } },
     );
@@ -49,7 +50,7 @@ describe("fetchComments", () => {
       },
     ];
 
-    mockedAxios.get.mockResolvedValueOnce({ data: apiResponse });
+    mockGet.mockResolvedValueOnce({ data: apiResponse });
 
     const result = await fetchComments("tt1234567");
     expect(result[0].author).toBe("jane smith jr");
@@ -64,7 +65,7 @@ describe("fetchComments", () => {
       body: "Comment",
     }));
 
-    mockedAxios.get.mockResolvedValueOnce({ data: apiResponse });
+    mockGet.mockResolvedValueOnce({ data: apiResponse });
 
     const result = await fetchComments("tt0001234");
     const ratings = result.map((c) => c.rating);
@@ -86,7 +87,7 @@ describe("fetchComments", () => {
       },
     ];
 
-    mockedAxios.get.mockResolvedValueOnce({ data: apiResponse });
+    mockGet.mockResolvedValueOnce({ data: apiResponse });
 
     const result = await fetchComments("tt0000001");
     expect(result[0].text).toBe("Line 1 Line 2 Line 3");
