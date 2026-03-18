@@ -38,7 +38,7 @@ export function DetailPage() {
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { comments, addComment } = useComments(id ?? "");
+  const { comments, addComment, loading: commentsLoading } = useComments(id ?? "");
 
   useEffect(() => {
     if (!id) return;
@@ -252,7 +252,13 @@ export function DetailPage() {
         <CommentForm onSubmit={addComment} />
 
         <Box mt={8}>
-          <CommentList comments={comments} />
+          {commentsLoading ? (
+            <Flex justify="center" py={8}>
+              <Spinner size="md" color="tertiary.500" />
+            </Flex>
+          ) : (
+            <CommentList comments={comments} />
+          )}
         </Box>
       </Container>
     </Box>

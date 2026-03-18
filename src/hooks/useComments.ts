@@ -1,17 +1,30 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   getComments,
   addComment as addCommentToStorage,
 } from "@/services/storage";
-import { mockComments } from "@/mocks/comments";
+import { fetchComments } from "@/services/comments";
 import type { Comment } from "@/types/movie";
 
 export function useComments(movieId: string) {
-  const [comments, setComments] = useState<Comment[]>(() => {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!movieId) return;
+
     const stored = getComments(movieId);
-    if (stored.length > 0) return stored;
-    return mockComments.map((c) => ({ ...c, movieId }));
-  });
+
+    setLoading(true);
+    fetchComments(movieId)
+      .then((apiComments) => {
+        setComments([...stored, ...apiComments]);
+      })
+      .catch(() => {
+        setComments(stored);
+      })
+      .finally(() => setLoading(false));
+  }, [movieId]);
 
   const addComment = useCallback(
     (author: string, text: string, rating: number) => {
@@ -21,5 +34,5 @@ export function useComments(movieId: string) {
     [movieId],
   );
 
-  return { comments, addComment };
+  return { comments, addComment, loading };
 }
