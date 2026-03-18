@@ -86,7 +86,7 @@ export function HomePage() {
       {query && (
         <Container maxW="1250px" px={{ base: 4, md: 6 }} w="100%">
           <Box py={6}>
-            <Heading size={{ base: "lg", md: "xl" }} color="white" mb={6}>
+            <Heading size={{ base: "lg", md: "xl" }} color="white" mb={6} display={{ base: "none", md: "block" }}>
               Results for &ldquo;{query}&rdquo;
               {totalResults > 0 && (
                 <Text as="span" color="lightGrey" fontSize={{ base: "sm", md: "md" }} fontWeight="normal" ml={2}>

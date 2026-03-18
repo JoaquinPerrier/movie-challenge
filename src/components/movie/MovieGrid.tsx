@@ -14,11 +14,11 @@ export function MovieGrid({
   onToggleFavorite,
 }: MovieGridProps) {
   return (
-    <Flex wrap="wrap" gap={5} justify="center">
+    <Flex wrap="wrap" gap={{ base: 2, md: 5 }} justify="center">
       {movies.map((movie) => (
         <Box
           key={movie.imdbID}
-          w={{ base: "calc(50% - 10px)", md: "calc(33.33% - 14px)", lg: "calc(25% - 15px)" }}
+          w={{ base: "calc(33.33% - 6px)", md: "calc(33.33% - 14px)", lg: "calc(25% - 15px)" }}
         >
           <MovieCard
             movie={movie}

@@ -11,6 +11,7 @@ A movie recommendations website built with React, TypeScript, Chakra UI, and Rea
 - **Axios** - HTTP client
 - **Vitest** + **React Testing Library** - Testing
 - **OMDb API** - Movie data
+- **json placeholder** - Comments
 
 ## Getting Started
 
@@ -69,6 +70,6 @@ npm run test:coverage
 ## Future Improvements
 
 - Implement user authentication (so comments have an owner)
-- Backend API for persisting comment
-- Add movie trailers (YouTube integration)
+- Backend API for persisting comments
+- Add movie trailers
 - Responsive image optimization with lazy loading

@@ -18,7 +18,7 @@ export function Header() {
             >
               <LuTvMinimalPlay size={20} color="white" />
             </Flex>
-            <Text fontSize="lg" fontWeight="semibold" color="white">
+            <Text fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold" color="white">
               MovieBox
             </Text>
           </Flex>
