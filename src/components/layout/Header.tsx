@@ -4,7 +4,7 @@ import { LuTvMinimalPlay } from "react-icons/lu";
 
 export function Header() {
   return (
-    <Box bg="dark" px={{ base: 4, md: 6 }} pt={20} pb={12}>
+    <Box bg="dark" px={{ base: 4, md: 6 }} pt={20} pb={{ base: 8, md: 16 }}>
       <Flex maxW="1250px" mx="auto" align="center">
         <Link to="/" style={{ textDecoration: "none" }}>
           <Flex align="center" gap={3}>

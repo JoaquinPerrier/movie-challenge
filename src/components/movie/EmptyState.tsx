@@ -17,6 +17,7 @@ export function EmptyState() {
         w={{ base: "240px", md: "340px", lg: "420px" }}
         mx="auto"
         mb={{ base: 6, md: 10 }}
+        mt={{ base: 38, md: 0 }}
       />
       <Text color="white" fontWeight="semibold" fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}>
         Don&apos;t know what to search?
